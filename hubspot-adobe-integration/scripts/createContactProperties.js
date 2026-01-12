@@ -4,7 +4,7 @@ dotenv.config();
 import { createProperty } from "../src/utils/createProperty.js";
 
 const objectType = "contacts";
-const groupName = "contact_information";
+const groupName = "contactinformation"; // Standard HubSpot property group (no underscore)
 
 const properties = [
   {

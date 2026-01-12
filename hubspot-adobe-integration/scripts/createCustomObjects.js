@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { hubspot } from "../src/clients/hubspot.client.js";
+import logger from "../src/utils/logger.js";
 
 const objects = [
   {
@@ -22,9 +23,9 @@ const objects = [
   for (const obj of objects) {
     try {
       await hubspot.post("/crm/v3/schemas", obj);
-      console.log(`✅ Created object: ${obj.name}`);
-    } catch {
-      console.log(`⚠️ Object exists: ${obj.name}`);
+      logger.info(`✅ Created object: ${obj.name}`, { objectName: obj.name });
+    } catch (err) {
+      logger.info(`⚠️ Object exists: ${obj.name}`, { objectName: obj.name });
     }
   }
 })();

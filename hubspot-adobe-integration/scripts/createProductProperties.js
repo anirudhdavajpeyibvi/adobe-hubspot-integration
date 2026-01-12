@@ -4,7 +4,7 @@ dotenv.config();
 import { createProperty } from "../src/utils/createProperty.js";
 
 const objectType = "products";
-const groupName = "product_information";
+const groupName = "productinformation"; // Standard HubSpot property group (no underscore)
 
 const properties = [
   { name: "incoming_qty", label: "Incoming Quantity", type: "number", fieldType: "number" },
@@ -14,7 +14,16 @@ const properties = [
   { name: "category_l1", label: "Category Level 1", type: "string", fieldType: "text" },
   { name: "category_l2", label: "Category Level 2", type: "string", fieldType: "text" },
   { name: "category_l3", label: "Category Level 3", type: "string", fieldType: "text" },
-  { name: "dnp", label: "Do Not Publish", type: "bool", fieldType: "booleancheckbox" },
+  { 
+    name: "dnp", 
+    label: "Do Not Publish", 
+    type: "bool", 
+    fieldType: "booleancheckbox",
+    options: [
+      { label: "Yes", value: "true" },
+      { label: "No", value: "false" }
+    ]
+  },
 ];
 
 (async () => {

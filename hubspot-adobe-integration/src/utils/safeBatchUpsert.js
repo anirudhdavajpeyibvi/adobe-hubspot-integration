@@ -1,5 +1,6 @@
 import { chunk } from "./chunk.js";
 import { hubspot } from "../clients/hubspot.client.js";
+import logger from "./logger.js";
 
 export const safeBatchUpsert = async (objectType, inputs) => {
   const batches = chunk(inputs, 100);
@@ -13,10 +14,11 @@ export const safeBatchUpsert = async (objectType, inputs) => {
       );
       results.push(...data.results);
     } catch (err) {
-      console.error(
-        `❌ ${objectType} batch failed`,
-        err.response?.data || err.message
-      );
+      logger.error(`${objectType} batch failed`, {
+        objectType,
+        error: err.response?.data || err.message,
+        batchSize: batch.length,
+      });
     }
   }
 

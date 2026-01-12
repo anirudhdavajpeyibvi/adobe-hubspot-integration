@@ -1,3 +1,5 @@
+import logger from "../utils/logger.js";
+
 export const validateBatch = (schema, records, entityName) => {
     const valid = [];
     const invalid = [];
@@ -12,9 +14,12 @@ export const validateBatch = (schema, records, entityName) => {
     }
   
     if (invalid.length) {
-      console.warn(
-        `⚠️ ${entityName}: ${invalid.length} invalid records skipped`
-      );
+      logger.warn(`${entityName}: ${invalid.length} invalid records skipped`, {
+        entityName,
+        invalidCount: invalid.length,
+        totalRecords: records.length,
+        invalidRecords: invalid.map(i => ({ error: i.error })),
+      });
     }
   
     return valid;
