@@ -30,6 +30,8 @@ export const createProperty = async (objectType, groupName, property) => {
         standardGroups = "companyinformation, marketinginformation, salesinformation";
       } else if (objectType === "products") {
         standardGroups = "productinformation, marketinginformation, salesinformation";
+      } else if (objectType === "deals") {
+        standardGroups = "dealinformation, marketinginformation, salesinformation";
       } else {
         standardGroups = `Check HubSpot documentation for standard property groups for ${objectType}`;
       }
