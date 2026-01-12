@@ -1,6 +1,6 @@
-const config = require('./env');
+import config from './env.js';
 
-module.exports = {
+export default {
   apiKey: config.hubspot.apiKey,
   baseUrl: config.hubspot.baseUrl,
   headers: {

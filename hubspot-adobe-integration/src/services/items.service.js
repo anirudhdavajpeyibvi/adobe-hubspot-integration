@@ -1,9 +1,9 @@
-const hubspotClient = require('../clients/hubspot.client');
-const adobeClient = require('../clients/adobe.client');
-const itemMapper = require('../mappers/item.mapper');
-const logger = require('../utils/logger');
-const { processInChunks } = require('../utils/chunk');
-const config = require('../config/env');
+import { hubspot } from '../clients/hubspot.client.js';
+import { adobe } from '../clients/adobe.client.js';
+import * as itemMapper from '../mappers/item.mapper.js';
+import logger from '../utils/logger.js';
+import { processInChunks } from '../utils/chunk.js';
+import config from '../config/env.js';
 
 class ItemsService {
   async syncFromHubspotToAdobe() {
@@ -11,7 +11,7 @@ class ItemsService {
       logger.info('Starting items sync from HubSpot to Adobe');
       
       // Fetch products from HubSpot
-      const hubspotProducts = await hubspotClient.get('/crm/v3/objects/products');
+      const hubspotProducts = await hubspot.get('/crm/v3/objects/products');
       
       if (!hubspotProducts.results || hubspotProducts.results.length === 0) {
         logger.info('No products found in HubSpot');
@@ -42,7 +42,7 @@ class ItemsService {
       logger.info('Starting items sync from Adobe to HubSpot');
       
       // Fetch products from Adobe Commerce
-      const adobeProducts = await adobeClient.get('/V1/products');
+      const adobeProducts = await adobe.get('/V1/products');
       
       if (!adobeProducts.items || adobeProducts.items.length === 0) {
         logger.info('No products found in Adobe');
@@ -69,7 +69,7 @@ class ItemsService {
   }
 }
 
-module.exports = new ItemsService();
+export default new ItemsService();
 
 
 

@@ -1,9 +1,9 @@
-const hubspotClient = require('../clients/hubspot.client');
-const adobeClient = require('../clients/adobe.client');
-const orderMapper = require('../mappers/order.mapper');
-const logger = require('../utils/logger');
-const { processInChunks } = require('../utils/chunk');
-const config = require('../config/env');
+import { hubspot } from '../clients/hubspot.client.js';
+import { adobe } from '../clients/adobe.client.js';
+import * as orderMapper from '../mappers/order.mapper.js';
+import logger from '../utils/logger.js';
+import { processInChunks } from '../utils/chunk.js';
+import config from '../config/env.js';
 
 class OrdersService {
   async syncFromHubspotToAdobe() {
@@ -11,7 +11,7 @@ class OrdersService {
       logger.info('Starting orders sync from HubSpot to Adobe');
       
       // Fetch deals from HubSpot
-      const hubspotDeals = await hubspotClient.get('/crm/v3/objects/deals');
+      const hubspotDeals = await hubspot.get('/crm/v3/objects/deals');
       
       if (!hubspotDeals.results || hubspotDeals.results.length === 0) {
         logger.info('No deals found in HubSpot');
@@ -42,7 +42,7 @@ class OrdersService {
       logger.info('Starting orders sync from Adobe to HubSpot');
       
       // Fetch orders from Adobe Commerce
-      const adobeOrders = await adobeClient.get('/V1/orders');
+      const adobeOrders = await adobe.get('/V1/orders');
       
       if (!adobeOrders.items || adobeOrders.items.length === 0) {
         logger.info('No orders found in Adobe');
@@ -69,7 +69,7 @@ class OrdersService {
   }
 }
 
-module.exports = new OrdersService();
+export default new OrdersService();
 
 
 

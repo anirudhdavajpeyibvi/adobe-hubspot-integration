@@ -1,9 +1,9 @@
-const hubspotClient = require('../clients/hubspot.client');
-const adobeClient = require('../clients/adobe.client');
-const contactMapper = require('../mappers/contact.mapper');
-const logger = require('../utils/logger');
-const { processInChunks } = require('../utils/chunk');
-const config = require('../config/env');
+import { hubspot } from '../clients/hubspot.client.js';
+import { adobe } from '../clients/adobe.client.js';
+import * as contactMapper from '../mappers/contact.mapper.js';
+import logger from '../utils/logger.js';
+import { processInChunks } from '../utils/chunk.js';
+import config from '../config/env.js';
 
 class ContactsService {
   async syncFromHubspotToAdobe() {
@@ -11,7 +11,7 @@ class ContactsService {
       logger.info('Starting contacts sync from HubSpot to Adobe');
       
       // Fetch contacts from HubSpot
-      const hubspotContacts = await hubspotClient.get('/crm/v3/objects/contacts');
+      const hubspotContacts = await hubspot.get('/crm/v3/objects/contacts');
       
       if (!hubspotContacts.results || hubspotContacts.results.length === 0) {
         logger.info('No contacts found in HubSpot');
@@ -43,7 +43,7 @@ class ContactsService {
       logger.info('Starting contacts sync from Adobe to HubSpot');
       
       // Fetch customers from Adobe Commerce
-      const adobeCustomers = await adobeClient.get('/V1/customers/search');
+      const adobeCustomers = await adobe.get('/V1/customers/search');
       
       if (!adobeCustomers.items || adobeCustomers.items.length === 0) {
         logger.info('No customers found in Adobe');
@@ -71,7 +71,7 @@ class ContactsService {
   }
 }
 
-module.exports = new ContactsService();
+export default new ContactsService();
 
 
 

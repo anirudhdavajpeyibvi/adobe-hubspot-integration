@@ -26,7 +26,7 @@ function adobeToHubspot(adobeUser) {
   };
 }
 
-module.exports = {
+export {
   hubspotToAdobe,
   adobeToHubspot,
 };

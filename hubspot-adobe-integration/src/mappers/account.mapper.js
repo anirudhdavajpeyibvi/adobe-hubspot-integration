@@ -3,7 +3,7 @@
  * @param {Object} hubspotCompany - HubSpot company object
  * @returns {Object} Adobe Commerce account object
  */
-function hubspotToAdobe(hubspotCompany) {
+export function hubspotToAdobe(hubspotCompany) {
   return {
     name: hubspotCompany.properties?.name || '',
     // Add additional field mappings as needed
@@ -15,17 +15,12 @@ function hubspotToAdobe(hubspotCompany) {
  * @param {Object} adobeAccount - Adobe Commerce account object
  * @returns {Object} HubSpot company properties
  */
-function adobeToHubspot(adobeAccount) {
+export function adobeToHubspot(adobeAccount) {
   return {
     name: adobeAccount.name,
     // Add additional field mappings as needed
   };
 }
-
-module.exports = {
-  hubspotToAdobe,
-  adobeToHubspot,
-};
 
 
 

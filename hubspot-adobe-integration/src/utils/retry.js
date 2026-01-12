@@ -1,5 +1,5 @@
-const config = require('../config/env');
-const logger = require('../utils/logger');
+import config from '../config/env.js';
+import logger from './logger.js';
 
 /**
  * Retries an async function with exponential backoff
@@ -8,7 +8,7 @@ const logger = require('../utils/logger');
  * @param {number} delay - Initial delay in milliseconds
  * @returns {Promise} Result of the function
  */
-async function retry(fn, maxAttempts = null, delay = null) {
+export async function retry(fn, maxAttempts = null, delay = null) {
   const attempts = maxAttempts || config.sync.retryAttempts;
   const initialDelay = delay || config.sync.retryDelay;
 
@@ -32,8 +32,6 @@ async function retry(fn, maxAttempts = null, delay = null) {
     }
   }
 }
-
-module.exports = retry;
 
 
 

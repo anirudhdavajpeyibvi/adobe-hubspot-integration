@@ -1,9 +1,9 @@
-const hubspotClient = require('../clients/hubspot.client');
-const adobeClient = require('../clients/adobe.client');
-const accountMapper = require('../mappers/account.mapper');
-const logger = require('../utils/logger');
-const { processInChunks } = require('../utils/chunk');
-const config = require('../config/env');
+import { hubspot } from '../clients/hubspot.client.js';
+import adobe from '../clients/adobe.client.js';
+import * as accountMapper from '../mappers/account.mapper.js';
+import logger from '../utils/logger.js';
+import { processInChunks } from '../utils/chunk.js';
+import config from '../config/env.js';
 
 class AccountsService {
   async syncFromHubspotToAdobe() {
@@ -11,7 +11,7 @@ class AccountsService {
       logger.info('Starting accounts sync from HubSpot to Adobe');
       
       // Fetch companies from HubSpot
-      const hubspotCompanies = await hubspotClient.get('/crm/v3/objects/companies');
+      const hubspotCompanies = await hubspot.get('/crm/v3/objects/companies');
       
       if (!hubspotCompanies.results || hubspotCompanies.results.length === 0) {
         logger.info('No companies found in HubSpot');
@@ -70,7 +70,7 @@ class AccountsService {
   }
 }
 
-module.exports = new AccountsService();
+export default new AccountsService();
 
 
 

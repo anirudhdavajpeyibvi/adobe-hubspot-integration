@@ -11,6 +11,7 @@ export const createProperty = async (objectType, groupName, property) => {
     );
     console.log(`✅ Created property: ${property.name}`);
   } catch (err) {
+    console.log(err);
     if (err.response?.data?.status === "error") {
       console.log(`⚠️ Skipped existing property: ${property.name}`);
     } else {

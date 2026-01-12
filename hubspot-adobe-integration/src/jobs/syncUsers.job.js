@@ -1,5 +1,5 @@
-const usersService = require('../services/users.service');
-const logger = require('../utils/logger');
+import usersService from '../services/users.service.js';
+import logger from '../utils/logger.js';
 
 async function syncUsers() {
   try {
@@ -26,7 +26,7 @@ async function syncUsers() {
   }
 }
 
-module.exports = syncUsers;
+export { syncUsers };
 
 
 

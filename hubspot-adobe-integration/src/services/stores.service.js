@@ -1,8 +1,8 @@
-const hubspotClient = require('../clients/hubspot.client');
-const adobeClient = require('../clients/adobe.client');
-const logger = require('../utils/logger');
-const { processInChunks } = require('../utils/chunk');
-const config = require('../config/env');
+import { hubspot } from '../clients/hubspot.client.js';
+import { adobe } from '../clients/adobe.client.js';
+import logger from '../utils/logger.js';
+import { processInChunks } from '../utils/chunk.js';
+import config from '../config/env.js';
 
 class StoresService {
   async syncFromHubspotToAdobe() {
@@ -36,7 +36,7 @@ class StoresService {
   }
 }
 
-module.exports = new StoresService();
+export default new StoresService();
 
 
 

@@ -1,5 +1,5 @@
-const itemsService = require('../services/items.service');
-const logger = require('../utils/logger');
+import itemsService from '../services/items.service.js';
+import logger from '../utils/logger.js';
 
 async function syncItems() {
   try {
@@ -26,7 +26,7 @@ async function syncItems() {
   }
 }
 
-module.exports = syncItems;
+export { syncItems };
 
 
 

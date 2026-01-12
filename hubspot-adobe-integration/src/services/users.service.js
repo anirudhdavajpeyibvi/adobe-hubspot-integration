@@ -1,9 +1,9 @@
-const hubspotClient = require('../clients/hubspot.client');
-const adobeClient = require('../clients/adobe.client');
-const userMapper = require('../mappers/user.mapper');
-const logger = require('../utils/logger');
-const { processInChunks } = require('../utils/chunk');
-const config = require('../config/env');
+import { hubspot } from '../clients/hubspot.client.js';
+import { adobe } from '../clients/adobe.client.js';
+import * as userMapper from '../mappers/user.mapper.js';
+import logger from '../utils/logger.js';
+import { processInChunks } from '../utils/chunk.js';
+import config from '../config/env.js';
 
 class UsersService {
   async syncFromHubspotToAdobe() {
@@ -11,7 +11,7 @@ class UsersService {
       logger.info('Starting users sync from HubSpot to Adobe');
       
       // Fetch users from HubSpot
-      const hubspotUsers = await hubspotClient.get('/settings/v3/users');
+      const hubspotUsers = await hubspot.get('/settings/v3/users');
       
       if (!hubspotUsers.results || hubspotUsers.results.length === 0) {
         logger.info('No users found in HubSpot');
@@ -43,7 +43,7 @@ class UsersService {
       
       // Fetch users from Adobe Commerce
       // Implementation depends on Adobe Commerce API structure
-      const adobeUsers = await adobeClient.get('/V1/users');
+      const adobeUsers = await adobe.get('/V1/users');
       
       if (!adobeUsers || adobeUsers.length === 0) {
         logger.info('No users found in Adobe');
@@ -70,7 +70,7 @@ class UsersService {
   }
 }
 
-module.exports = new UsersService();
+export default new UsersService();
 
 
 
