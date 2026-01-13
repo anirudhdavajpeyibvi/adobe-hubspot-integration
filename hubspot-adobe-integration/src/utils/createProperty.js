@@ -59,6 +59,7 @@ export const createProperty = async (objectType, groupName, property) => {
     
     // Check for other validation errors
     if (errorData?.status === "error") {
+      logger.error({errorData})
       logger.error(`Failed to create property '${property.name}'`, {
         propertyName: property.name,
         error: errorMessage,
