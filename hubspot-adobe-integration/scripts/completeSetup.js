@@ -3,7 +3,7 @@ dotenv.config();
 
 import { hubspot } from "../src/clients/hubspot.client.js";
 import { createProperty } from "../src/utils/createProperty.js";
-import { safeBatchCreate } from "../src/utils/safeBatchUpsert.js";
+import { safeBatchCreate, safeBatchUpsert } from "../src/utils/safeBatchUpsert.js";
 import logger from "../src/utils/logger.js";
 
 /**
@@ -93,6 +93,15 @@ const contactProperties = [
 // STEP 3: Company Properties
 // ============================================================================
 const companyProperties = [
+  {
+    name: "custom_company_domain",
+    label: "Custom Company Domain",
+    type: "string",
+    fieldType: "text",
+    hasUniqueValue: true,          // ✅ REQUIRED
+    hidden: false,
+    formField: false,
+  },
   {
     name: "account_type",
     label: "Account Type",
@@ -304,6 +313,7 @@ const sampleCompanies = [
     oracle_account_id: "ORACLE-ACC-001",
     credit_terms: "Net 30",
     domain: "acme.com",
+    custom_company_domain: "acme.com",
   },
   {
     name: "Tech Solutions Inc",
@@ -313,6 +323,7 @@ const sampleCompanies = [
     oracle_account_id: "ORACLE-ACC-002",
     credit_terms: "Net 60",
     domain: "techsolutions.com",
+    custom_company_domain: "techsolutions.com",
   },
   {
     name: "Design Co",
@@ -322,6 +333,7 @@ const sampleCompanies = [
     oracle_account_id: "ORACLE-ACC-003",
     credit_terms: "Prepaid",
     domain: "designco.com",
+    custom_company_domain: "designco.com",
   },
 ];
 
@@ -463,22 +475,37 @@ async function completeSetup() {
     logger.info("📝 Step 6/6: Creating sample records...");
     
     // Create Companies
-    logger.info("🏢 Creating companies...");
-    const companiesInput = sampleCompanies.map(company => ({ properties: company }));
-    const companies = await safeBatchCreate("companies", companiesInput);
-    logger.info(`✅ Created ${companies.length} companies`);
+    logger.info("🏢 Creating/Updating companies...");
+    // const companiesInput = sampleCompanies.map(company => ({ properties: company }));
+    const companiesInput = sampleCompanies.map(company => ({
+      id: company.custom_company_domain,
+      idProperty: "custom_company_domain",
+      properties: company
+    }));
+    const companies = await safeBatchUpsert("companies", companiesInput);
+    logger.info(`✅ Created/Updated ${companies.length} companies`);
 
     // Create Contacts
-    logger.info("👤 Creating contacts...");
-    const contactsInput = sampleContacts.map(contact => ({ properties: contact }));
-    const contacts = await safeBatchCreate("contacts", contactsInput);
-    logger.info(`✅ Created ${contacts.length} contacts`);
+    logger.info("👤 Creating/Updating contacts...");
+    // const contactsInput = sampleContacts.map(contact => ({ properties: contact }));
+    const contactsInput = sampleContacts.map(contact => ({
+      id: contact.email,
+      idProperty: "email",
+      properties: contact
+    }));
+    const contacts = await safeBatchUpsert("contacts", contactsInput);
+    logger.info(`✅ Created/Updated ${contacts.length} contacts`);
 
     // Create Products
-    logger.info("📦 Creating products...");
-    const productsInput = sampleProducts.map(product => ({ properties: product }));
-    const products = await safeBatchCreate("products", productsInput);
-    logger.info(`✅ Created ${products.length} products`);
+    logger.info("📦 Creating/Updating products...");
+    // const productsInput = sampleProducts.map(product => ({ properties: product }));
+    const productsInput = sampleProducts.map(product => ({
+      id: product.hs_sku,
+      idProperty: "hs_sku",
+      properties: product,
+    }));
+    const products = await safeBatchUpsert("products", productsInput);
+    logger.info(`✅ Created/Updated ${products.length} products`);
 
     // Create Deals
     logger.info("💰 Creating deals...");
